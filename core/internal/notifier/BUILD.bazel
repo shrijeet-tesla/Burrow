@@ -1,0 +1,42 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "notifier",
+    srcs = [
+        "coordinator.go",
+        "email.go",
+        "helpers.go",
+        "http.go",
+        "null.go",
+    ],
+    importpath = "github.com/linkedin/Burrow/core/internal/notifier",
+    visibility = ["//core:__subpackages__"],
+    deps = [
+        "//core/internal/helpers",
+        "//core/protocol",
+        "@com_github_pborman_uuid//:uuid",
+        "@com_github_spf13_viper//:viper",
+        "@in_gopkg_gomail_v2//:gomail_v2",
+        "@org_uber_go_zap//:zap",
+    ],
+)
+
+go_test(
+    name = "notifier_test",
+    srcs = [
+        "coordinator_race_test.go",
+        "coordinator_test.go",
+        "email_test.go",
+        "http_test.go",
+    ],
+    embed = [":notifier"],
+    deps = [
+        "//core/internal/helpers",
+        "//core/protocol",
+        "@com_github_spf13_viper//:viper",
+        "@com_github_stretchr_testify//assert",
+        "@com_github_stretchr_testify//mock",
+        "@in_gopkg_gomail_v2//:gomail_v2",
+        "@org_uber_go_zap//:zap",
+    ],
+)

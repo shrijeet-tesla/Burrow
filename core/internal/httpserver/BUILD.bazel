@@ -1,0 +1,42 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "httpserver",
+    srcs = [
+        "config.go",
+        "coordinator.go",
+        "kafka.go",
+        "prometheus.go",
+        "structs.go",
+    ],
+    importpath = "github.com/linkedin/Burrow/core/internal/httpserver",
+    visibility = ["//core:__subpackages__"],
+    deps = [
+        "//core/internal/helpers",
+        "//core/protocol",
+        "@com_github_julienschmidt_httprouter//:httprouter",
+        "@com_github_prometheus_client_golang//prometheus",
+        "@com_github_prometheus_client_golang//prometheus/promauto",
+        "@com_github_prometheus_client_golang//prometheus/promhttp",
+        "@com_github_spf13_viper//:viper",
+        "@org_uber_go_zap//:zap",
+        "@org_uber_go_zap//zapcore",
+    ],
+)
+
+go_test(
+    name = "httpserver_test",
+    srcs = [
+        "config_test.go",
+        "coordinator_test.go",
+        "kafka_test.go",
+        "prometheus_test.go",
+    ],
+    embed = [":httpserver"],
+    deps = [
+        "//core/protocol",
+        "@com_github_spf13_viper//:viper",
+        "@com_github_stretchr_testify//assert",
+        "@org_uber_go_zap//:zap",
+    ],
+)

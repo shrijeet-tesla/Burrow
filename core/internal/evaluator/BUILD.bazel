@@ -1,0 +1,36 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "evaluator",
+    srcs = [
+        "caching.go",
+        "coordinator.go",
+        "fixtures.go",
+    ],
+    importpath = "github.com/linkedin/Burrow/core/internal/evaluator",
+    visibility = ["//core:__subpackages__"],
+    deps = [
+        "//core/internal/helpers",
+        "//core/internal/storage",
+        "//core/protocol",
+        "@com_github_karrick_goswarm//:goswarm",
+        "@com_github_spf13_viper//:viper",
+        "@org_uber_go_zap//:zap",
+    ],
+)
+
+go_test(
+    name = "evaluator_test",
+    srcs = [
+        "caching_test.go",
+        "coordinator_test.go",
+    ],
+    embed = [":evaluator"],
+    deps = [
+        "//core/internal/storage",
+        "//core/protocol",
+        "@com_github_spf13_viper//:viper",
+        "@com_github_stretchr_testify//assert",
+        "@org_uber_go_zap//:zap",
+    ],
+)

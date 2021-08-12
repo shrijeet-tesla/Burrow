@@ -1,0 +1,29 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "core",
+    srcs = [
+        "burrow.go",
+        "logger.go",
+        "open_out_log_linux_arm64.go",
+        "open_out_log_unix.go",
+        "open_out_log_windows.go",
+    ],
+    importpath = "github.com/linkedin/Burrow/core",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//core/internal/cluster",
+        "//core/internal/consumer",
+        "//core/internal/evaluator",
+        "//core/internal/helpers",
+        "//core/internal/httpserver",
+        "//core/internal/notifier",
+        "//core/internal/storage",
+        "//core/internal/zookeeper",
+        "//core/protocol",
+        "@com_github_spf13_viper//:viper",
+        "@in_gopkg_natefinch_lumberjack_v2//:lumberjack_v2",
+        "@org_uber_go_zap//:zap",
+        "@org_uber_go_zap//zapcore",
+    ],
+)
