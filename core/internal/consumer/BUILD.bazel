@@ -1,0 +1,40 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "consumer",
+    srcs = [
+        "coordinator.go",
+        "kafka_client.go",
+        "kafka_zk_client.go",
+    ],
+    importpath = "github.com/linkedin/Burrow/core/internal/consumer",
+    visibility = ["//core:__subpackages__"],
+    deps = [
+        "//core/internal/helpers",
+        "//core/protocol",
+        "@com_github_samuel_go_zookeeper//zk",
+        "@com_github_shopify_sarama//:sarama",
+        "@com_github_spf13_viper//:viper",
+        "@org_uber_go_zap//:zap",
+    ],
+)
+
+go_test(
+    name = "consumer_test",
+    srcs = [
+        "coordinator_test.go",
+        "kafka_client_test.go",
+        "kafka_zk_test.go",
+    ],
+    embed = [":consumer"],
+    deps = [
+        "//core/internal/helpers",
+        "//core/protocol",
+        "@com_github_samuel_go_zookeeper//zk",
+        "@com_github_shopify_sarama//:sarama",
+        "@com_github_spf13_viper//:viper",
+        "@com_github_stretchr_testify//assert",
+        "@com_github_stretchr_testify//mock",
+        "@org_uber_go_zap//:zap",
+    ],
+)

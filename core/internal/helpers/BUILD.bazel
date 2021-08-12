@@ -1,0 +1,47 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "helpers",
+    srcs = [
+        "coordinators.go",
+        "sarama.go",
+        "scram.go",
+        "storage.go",
+        "time.go",
+        "validation.go",
+        "zookeeper.go",
+    ],
+    importpath = "github.com/linkedin/Burrow/core/internal/helpers",
+    visibility = ["//core:__subpackages__"],
+    deps = [
+        "//core/protocol",
+        "@com_github_pkg_errors//:errors",
+        "@com_github_samuel_go_zookeeper//zk",
+        "@com_github_shopify_sarama//:sarama",
+        "@com_github_spf13_viper//:viper",
+        "@com_github_stretchr_testify//mock",
+        "@com_github_xdg_scram//:scram",
+        "@org_uber_go_zap//:zap",
+        "@org_uber_go_zap//zapcore",
+    ],
+)
+
+go_test(
+    name = "helpers_test",
+    srcs = [
+        "coordinators_test.go",
+        "sarama_test.go",
+        "storage_test.go",
+        "time_test.go",
+        "validation_test.go",
+        "zookeeper_test.go",
+    ],
+    embed = [":helpers"],
+    deps = [
+        "//core/protocol",
+        "@com_github_shopify_sarama//:sarama",
+        "@com_github_stretchr_testify//assert",
+        "@org_uber_go_zap//:zap",
+        "@org_uber_go_zap//zapcore",
+    ],
+)

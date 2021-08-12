@@ -1,0 +1,16 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "protocol",
+    srcs = [
+        "evaluator.go",
+        "protocol.go",
+        "storage.go",
+    ],
+    importpath = "github.com/linkedin/Burrow/core/protocol",
+    visibility = ["//visibility:public"],
+    deps = [
+        "@com_github_samuel_go_zookeeper//zk",
+        "@org_uber_go_zap//:zap",
+    ],
+)

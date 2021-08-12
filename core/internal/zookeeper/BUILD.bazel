@@ -1,0 +1,30 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "zookeeper",
+    srcs = ["coordinator.go"],
+    importpath = "github.com/linkedin/Burrow/core/internal/zookeeper",
+    visibility = ["//core:__subpackages__"],
+    deps = [
+        "//core/internal/helpers",
+        "//core/protocol",
+        "@com_github_samuel_go_zookeeper//zk",
+        "@com_github_spf13_viper//:viper",
+        "@org_uber_go_zap//:zap",
+    ],
+)
+
+go_test(
+    name = "zookeeper_test",
+    srcs = ["coordinator_test.go"],
+    embed = [":zookeeper"],
+    deps = [
+        "//core/internal/helpers",
+        "//core/protocol",
+        "@com_github_samuel_go_zookeeper//zk",
+        "@com_github_spf13_viper//:viper",
+        "@com_github_stretchr_testify//assert",
+        "@com_github_stretchr_testify//mock",
+        "@org_uber_go_zap//:zap",
+    ],
+)

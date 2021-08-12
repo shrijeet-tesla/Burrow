@@ -1,0 +1,36 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "cluster",
+    srcs = [
+        "coordinator.go",
+        "kafka_cluster.go",
+    ],
+    importpath = "github.com/linkedin/Burrow/core/internal/cluster",
+    visibility = ["//core:__subpackages__"],
+    deps = [
+        "//core/internal/helpers",
+        "//core/protocol",
+        "@com_github_shopify_sarama//:sarama",
+        "@com_github_spf13_viper//:viper",
+        "@org_uber_go_zap//:zap",
+    ],
+)
+
+go_test(
+    name = "cluster_test",
+    srcs = [
+        "coordinator_test.go",
+        "kafka_cluster_test.go",
+    ],
+    embed = [":cluster"],
+    deps = [
+        "//core/internal/helpers",
+        "//core/protocol",
+        "@com_github_shopify_sarama//:sarama",
+        "@com_github_spf13_viper//:viper",
+        "@com_github_stretchr_testify//assert",
+        "@com_github_stretchr_testify//mock",
+        "@org_uber_go_zap//:zap",
+    ],
+)
